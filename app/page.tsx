@@ -3,7 +3,7 @@ export default function Home() {
     <div className="flex flex-col gap-16 pb-16">
       {/* Hero Section */}
       <section className="relative w-full h-[80vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-primary/90 z-10" /> {/* Fallback overlay in case image fails/not added */}
+        <div className="absolute inset-0 bg-black/40 z-10" /> {/* Transparent overlay for readable text */}
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: 'url("/images/backgroundberanda.jpeg")' }}
