@@ -6,7 +6,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-primary/90 z-10" /> {/* Fallback overlay in case image fails/not added */}
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: 'url("https://images.unsplash.com/photo-1596422846543-74c6c214d025?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")' }}
+          style={{ backgroundImage: 'url("/images/backgroundberanda.jpeg")' }}
         />
         <div className="relative z-20 text-center text-white px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-in slide-in-from-bottom flex flex-col gap-2">
