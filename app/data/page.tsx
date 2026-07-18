@@ -1,9 +1,10 @@
 const populationStats = [
-    { group: "Dusun 1", count: 850, percentage: 85 },
-    { group: "Dusun 2", count: 920, percentage: 92 },
-    { group: "Dusun 3", count: 780, percentage: 78 },
-    { group: "Dusun 4", count: 1100, percentage: 100 },
-    { group: "Dusun 5", count: 871, percentage: 87 },
+    { group: "Dusun I", count: 850, percentage: 77 },
+    { group: "Dusun II (Kalae)", count: 920, percentage: 83 },
+    { group: "Dusun III (Trimasari)", count: 780, percentage: 70 },
+    { group: "Dusun IV (Masiana)", count: 1100, percentage: 100 },
+    { group: "Dusun V (Bonebula)", count: 871, percentage: 79 },
+    { group: "Dusun VI (Toini)", count: 650, percentage: 59 },
 ];
 
 export default function DataDesa() {
@@ -32,7 +33,7 @@ export default function DataDesa() {
                         <p className="font-medium text-gray-600">RT (Rukun Tetangga)</p>
                     </div>
                     <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
-                        <h3 className="text-4xl font-black text-gray-900 mb-2">5</h3>
+                        <h3 className="text-4xl font-black text-gray-900 mb-2">6</h3>
                         <p className="font-medium text-gray-600">Lingkungan/Dusun</p>
                     </div>
                 </div>

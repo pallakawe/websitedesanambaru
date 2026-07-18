@@ -54,7 +54,7 @@ export default function Home() {
             {[
               { label: 'Penduduk', value: '4.521', desc: 'Jiwa' },
               { label: 'Keluarga', value: '1.204', desc: 'Kepala Keluarga' },
-              { label: 'Dusun', value: '5', desc: 'Wilayah' },
+              { label: 'Dusun', value: '6', desc: 'Wilayah' },
               { label: 'RT / RW', value: '24 / 8', desc: 'Total' },
             ].map((stat, i) => (
               <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border hover:border-primary transition-colors">
