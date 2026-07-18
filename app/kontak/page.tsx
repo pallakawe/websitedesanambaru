@@ -10,7 +10,7 @@ export default function KontakDesa() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const teks = `Halo Desa Nambaru,%0ANama: ${nama}%0AKontak: ${kontak}%0APesan: ${pesan}`;
-        window.open(`https://wa.me/+6281234567890?text=${teks}`, '_blank');
+        window.open(`https://wa.me/6282347471117?text=${teks}`, '_blank');
     };
     return (
         <div className="container mx-auto px-4 py-12">
@@ -31,8 +31,8 @@ export default function KontakDesa() {
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Alamat Balai Desa</h3>
                             <p className="text-gray-600 leading-relaxed">
                                 Jalan Nambaru Raya No. 1<br />
-                                Kecamatan Contoh, Kabupaten Contoh<br />
-                                Provinsi Jawa Barat, 40123
+                                Kecamatan Parigi Selatan, Kabupaten Parigi Moutong<br />
+                                Provinsi Sulawesi Tengah, 94471
                             </p>
                         </div>
                     </div>
@@ -43,8 +43,8 @@ export default function KontakDesa() {
                         <div>
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Telepon / WhatsApp</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                +62 812 3456 7890 (Layanan Warga)<br />
-                                +62 812 0987 6543 (Kegawatdaruratan)
+                                +62 823-4747-1117 (Layanan Warga)<br />
+                                +62 823-4747-1117 (Administrasi Desa)
                             </p>
                         </div>
                     </div>
