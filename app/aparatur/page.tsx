@@ -1,11 +1,27 @@
 const officials = [
-    { id: 1, name: "Budi Santoso", position: "Kepala Desa", period: "2020-2026", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=400&q=80" },
-    { id: 2, name: "Ahmad Riyadi", position: "Sekretaris Desa", period: "2022-2028", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&w=400&q=80" },
-    { id: 3, name: "Siti Aminah", position: "Bendahara Desa", period: "2021-2027", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&w=400&q=80" },
-    { id: 4, name: "Hasan Basri", position: "Kasi Pemerintahan", period: "2019-2025", photo: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&w=400&q=80" },
-    { id: 5, name: "Dewi Lestari", position: "Kasi Pelayanan", period: "2023-2029", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&w=400&q=80" },
-    { id: 6, name: "Agus Salim", position: "Kasi Kesejahteraan", period: "2020-2026", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&w=400&q=80" }
+    { id: 1, name: "Asmuran", position: "Kepala Desa", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 2, name: "Kamarudin", position: "Sekretaris Desa", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 3, name: "Ibnu", position: "Kaur Perencanaan", photo: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 4, name: "Umi Kalsum", position: "Kaur Umum", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 5, name: "I Putu Suci Astawa", position: "Kaur Keuangan", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 6, name: "Refly", position: "Kasi Pemerintahan", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 7, name: "Marlina", position: "Kasi Kesejahteraan dan Pelayanan", photo: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 8, name: "Alwin", position: "Kepala Dusun I", photo: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 9, name: "Jamaluddin", position: "Kepala Dusun II", photo: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 10, name: "I Putu Indra Yogi", position: "Kepala Dusun III", photo: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 11, name: "Yerry Elshinta", position: "Kepala Dusun IV", photo: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 12, name: "Junaedi Biki", position: "Kepala Dusun V", photo: "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 13, name: "Rifandi", position: "Kepala Dusun VI", photo: "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?ixlib=rb-4.0.3&w=400&q=80" },
 ];
+
+function OrgNode({ title, name, color = "bg-white border-primary" }: { title: string; name: string; color?: string }) {
+    return (
+        <div className={`${color} border-2 rounded-xl px-4 py-3 text-center shadow-sm min-w-[140px]`}>
+            <p className="text-[11px] font-bold uppercase tracking-wide text-primary mb-0.5">{title}</p>
+            <p className="text-sm font-semibold text-gray-800 leading-tight">{name}</p>
+        </div>
+    );
+}
 
 export default function AparaturDesa() {
     return (
@@ -17,6 +33,105 @@ export default function AparaturDesa() {
                 </p>
             </div>
 
+            {/* Bagan Struktur Organisasi */}
+            <div className="mb-20">
+                <h2 className="text-2xl font-bold text-center mb-10 text-gray-800">Bagan Struktur Organisasi</h2>
+
+                <div className="overflow-x-auto pb-4">
+                    <div className="flex flex-col items-center gap-0 min-w-[900px]">
+
+                        {/* BPD + Kepala Desa */}
+                        <div className="flex items-center justify-center gap-6 w-full">
+                            <div className="border-2 border-dashed border-gray-400 rounded-xl px-4 py-3 text-center min-w-[120px]">
+                                <p className="text-sm font-bold text-gray-600">BPD</p>
+                            </div>
+                            {/* dashed connector */}
+                            <div className="flex-shrink-0 w-8 border-t-2 border-dashed border-gray-400"></div>
+                            <OrgNode title="Kepala Desa" name="Asmuran" color="bg-primary/10 border-primary" />
+                        </div>
+
+                        {/* Line down to Sekdes */}
+                        <div className="h-8 w-px bg-gray-400"></div>
+
+                        {/* Sekretaris Desa */}
+                        <OrgNode title="Sekretaris Desa" name="Kamarudin" color="bg-green-50 border-green-600" />
+
+                        {/* Line down + horizontal spread */}
+                        <div className="h-8 w-px bg-gray-400"></div>
+
+                        {/* KAUR row */}
+                        <div className="flex items-start justify-center gap-8 w-full relative">
+                            {/* Horizontal line across top */}
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[560px] h-px bg-gray-400"></div>
+                            <div className="flex flex-col items-center gap-0">
+                                <div className="h-8 w-px bg-gray-400"></div>
+                                <OrgNode title="Kaur Perencanaan" name="Ibnu" />
+                            </div>
+                            <div className="flex flex-col items-center gap-0">
+                                <div className="h-8 w-px bg-gray-400"></div>
+                                <OrgNode title="Kaur Umum" name="Umi Kalsum" />
+                            </div>
+                            <div className="flex flex-col items-center gap-0">
+                                <div className="h-8 w-px bg-gray-400"></div>
+                                <OrgNode title="Kaur Keuangan" name="I Putu Suci Astawa" />
+                            </div>
+                        </div>
+
+                        {/* Line down from Sekdes to Kasi */}
+                        <div className="h-8 w-px bg-gray-400 mt-0"></div>
+
+                        {/* KASI row */}
+                        <div className="flex items-start justify-center gap-16 w-full relative">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[340px] h-px bg-gray-400"></div>
+                            <div className="flex flex-col items-center gap-0">
+                                <div className="h-8 w-px bg-gray-400"></div>
+                                <OrgNode title="Kasi Pemerintahan" name="Refly" />
+                            </div>
+                            <div className="flex flex-col items-center gap-0">
+                                <div className="h-8 w-px bg-gray-400"></div>
+                                <OrgNode title="Kasi Kesejahteraan & Pelayanan" name="Marlina" />
+                            </div>
+                        </div>
+
+                        {/* Line down to Kadus */}
+                        <div className="h-8 w-px bg-gray-400"></div>
+
+                        {/* KADUS row */}
+                        <div className="flex items-start justify-center gap-4 w-full relative">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-px bg-gray-400"></div>
+                            {[
+                                { title: "Kepala Dusun I", name: "Alwin" },
+                                { title: "Kepala Dusun II", name: "Jamaluddin" },
+                                { title: "Kepala Dusun III", name: "I Putu Indra Yogi" },
+                                { title: "Kepala Dusun IV", name: "Yerry Elshinta" },
+                                { title: "Kepala Dusun V", name: "Junaedi Biki" },
+                                { title: "Kepala Dusun VI", name: "Rifandi" },
+                            ].map((kadus) => (
+                                <div key={kadus.title} className="flex flex-col items-center gap-0">
+                                    <div className="h-8 w-px bg-gray-400"></div>
+                                    <OrgNode title={kadus.title} name={kadus.name} />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Legend */}
+                        <div className="flex gap-6 mt-10 text-xs text-gray-500">
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 border-t-2 border-gray-500"></div>
+                                <span>Garis Komando</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 border-t-2 border-dashed border-gray-400"></div>
+                                <span>Garis Koordinasi</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {/* Foto Aparatur */}
+            <h2 className="text-2xl font-bold text-center mb-10 text-gray-800">Daftar Aparatur Desa</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {officials.map((official) => (
                     <div key={official.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border group hover:border-primary transition-all hover:shadow-md">
@@ -25,10 +140,7 @@ export default function AparaturDesa() {
                         </div>
                         <div className="p-6 text-center">
                             <h3 className="text-xl font-bold text-gray-900 mb-1">{official.name}</h3>
-                            <p className="text-primary font-semibold mb-2">{official.position}</p>
-                            <div className="inline-block bg-muted px-3 py-1 rounded text-xs text-gray-600 font-medium">
-                                Periode: {official.period}
-                            </div>
+                            <p className="text-primary font-semibold">{official.position}</p>
                         </div>
                     </div>
                 ))}

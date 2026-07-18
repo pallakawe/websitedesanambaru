@@ -28,20 +28,14 @@ export default function BeritaDesa() {
                             <p className="text-xs font-bold tracking-wider text-primary mb-2 uppercase">{news.date}</p>
                             <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">{news.title}</h3>
                             <p className="text-gray-600 text-sm mb-4 line-clamp-2">{news.excerpt}</p>
-                            <a href="#" className="text-sm font-semibold text-primary hover:underline mt-auto inline-flex items-center gap-1">
-                                Baca Selengkapnya
+                            <a href={`/berita/${news.id}`} className="text-sm font-semibold text-primary hover:underline mt-auto inline-flex items-center gap-1">
+                                Baca Selengkapnya →
                             </a>
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="mt-16 flex justify-center gap-2">
-                <button className="px-4 py-2 border rounded-lg text-gray-400 cursor-not-allowed bg-gray-50">Sebelumnya</button>
-                <button className="px-4 py-2 border border-primary rounded-lg bg-primary text-white font-medium">1</button>
-                <button className="px-4 py-2 border rounded-lg hover:border-primary hover:text-primary transition-colors text-gray-700">2</button>
-                <button className="px-4 py-2 border rounded-lg hover:border-primary hover:text-primary transition-colors text-gray-700">Selanjutnya</button>
-            </div>
         </div>
     );
 }

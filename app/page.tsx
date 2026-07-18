@@ -1,8 +1,8 @@
 export default function Home() {
   return (
     <div className="flex flex-col gap-16 pb-16">
-      {/* Hero Section */}
-      <section className="relative w-full h-[80vh] flex items-center justify-center overflow-hidden">
+      {/* Hero Section - full height, extends behind fixed navbar */}
+      <section className="relative w-full h-screen -mt-16 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-black/40 z-10" /> {/* Transparent overlay for readable text */}
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
@@ -14,15 +14,15 @@ export default function Home() {
             <span className="text-white">Desa Nambaru</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90 animate-in slide-in-from-bottom delay-150">
-            Harmoni Alam dan Budaya, Bersama Membangun Desa yang Maju, Mandiri, dan Sejahtera.
+            Desa Kerukunan yang Tumbuh Bersama, Maju Bersama, dan Sejahtera Bersama.
           </p>
           <div className="mt-8 flex gap-4 justify-center">
-            <button className="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition shadow-lg">
+            <a href="/profil" className="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition shadow-lg">
               Jelajahi Desa
-            </button>
-            <button className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition">
+            </a>
+            <a href="/potensi" className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition">
               Lihat Potensi
-            </button>
+            </a>
           </div>
         </div>
       </section>
@@ -31,15 +31,15 @@ export default function Home() {
       <section className="container mx-auto px-4">
         <div className="bg-white border rounded-2xl p-8 shadow-sm max-w-4xl mx-auto flex flex-col md:flex-row gap-8 items-center border-l-4 border-l-primary">
           <div className="w-32 h-32 flex-shrink-0 bg-muted rounded-full overflow-hidden border-4 border-primary/20">
-            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="Kepala Desa" className="w-full h-full object-cover" />
+            <img src="/images/fotokades.png" alt="Kepala Desa" className="w-full h-full object-cover" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Sambutan Kepala Desa</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Sambutan Kepala Desa Nambaru</h2>
             <p className="text-gray-600 mb-4 italic">
-              "Puji syukur kehadirat Tuhan YME, website desa ini hadir sebagai wujud komitmen kami untuk memberikan pelayanan publik yang transparan dan membuka pintu informasi seluas-luasnya tentang potensi desa."
+              "Puji syukur ke hadirat Tuhan Yang Maha Esa. Kehadiran Website Desa Nambaru merupakan wujud komitmen Pemerintah Desa dalam memberikan pelayanan informasi yang cepat, transparan, dan mudah diakses oleh masyarakat. Melalui website ini, kami berharap seluruh informasi mengenai pemerintahan, pembangunan, potensi desa, serta berbagai layanan publik dapat tersampaikan dengan baik, sehingga mampu mempererat kebersamaan dalam mewujudkan Desa Nambaru yang maju, sejahtera, dan berbudaya."
             </p>
             <div>
-              <p className="font-semibold text-primary">Bapak Budi Santoso</p>
+              <p className="font-semibold text-primary">Asmuran</p>
               <p className="text-sm text-gray-500">Kepala Desa Nambaru</p>
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function Home() {
             </div>
             <div className="grid gap-6">
               {[1, 2, 3].map((item) => (
-                <div key={item} className="flex gap-4 group cursor-pointer">
+                <a key={item} href="/berita" className="flex gap-4 group cursor-pointer">
                   <div className="w-32 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                     <img src={`https://images.unsplash.com/photo-1592888636906-8c50543fb5dd?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80&sig=${item}`} alt="Berita" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   </div>
@@ -87,7 +87,7 @@ export default function Home() {
                     <p className="text-xs text-primary font-medium mt-1 mb-2">12 Agustus 2026</p>
                     <p className="text-sm text-gray-600 line-clamp-2">Kegiatan rutin bulanan masyarakat desa melakukan kerja bakti membersihkan lingkungan.</p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           </div>

@@ -1,6 +1,17 @@
+"use client";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
 
 export default function KontakDesa() {
+    const [nama, setNama] = useState('');
+    const [kontak, setKontak] = useState('');
+    const [pesan, setPesan] = useState('');
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const teks = `Halo Desa Nambaru,%0ANama: ${nama}%0AKontak: ${kontak}%0APesan: ${pesan}`;
+        window.open(`https://wa.me/+6281234567890?text=${teks}`, '_blank');
+    };
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center max-w-2xl mx-auto mb-16">
@@ -53,20 +64,20 @@ export default function KontakDesa() {
 
                 <div className="bg-white p-8 rounded-2xl shadow-sm border flex flex-col">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Kirim Pesan</h3>
-                    <form className="flex-1 flex flex-col gap-5">
+                    <form className="flex-1 flex flex-col gap-5" onSubmit={handleSubmit}>
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
-                            <input type="text" className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white" placeholder="Masukkan nama..." />
+                            <input type="text" value={nama} onChange={e => setNama(e.target.value)} required className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white" placeholder="Masukkan nama..." />
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Email atau Nomor Telepon</label>
-                            <input type="text" className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white" placeholder="Masukkan kontak..." />
+                            <input type="text" value={kontak} onChange={e => setKontak(e.target.value)} required className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white" placeholder="Masukkan kontak..." />
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Pesan</label>
-                            <textarea rows={4} className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white resize-none" placeholder="Tulis pesan Anda di sini..."></textarea>
+                            <textarea rows={4} value={pesan} onChange={e => setPesan(e.target.value)} required className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white resize-none" placeholder="Tulis pesan Anda di sini..."></textarea>
                         </div>
-                        <button type="button" className="mt-auto bg-primary text-white font-bold py-4 rounded-xl hover:bg-opacity-90 transition-all shadow-md">
+                        <button type="submit" className="mt-auto bg-primary text-white font-bold py-4 rounded-xl hover:bg-opacity-90 transition-all shadow-md">
                             Kirim Ke Desa
                         </button>
                     </form>
