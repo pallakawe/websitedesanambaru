@@ -24,8 +24,8 @@ export function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isTransparent
-          ? 'border-b border-white/10 bg-transparent'
-          : 'border-b border-border bg-white/90 backdrop-blur-md shadow-sm'
+        ? 'border-b border-white/10 bg-transparent'
+        : 'border-b border-border bg-white/90 backdrop-blur-md shadow-sm'
         }`}
     >
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
@@ -63,13 +63,14 @@ export function Navbar() {
             { href: '/data', label: 'Data' },
             { href: '/potensi', label: 'Potensi' },
             { href: '/berita', label: 'Berita' },
+            { href: '/kontak', label: 'Kontak' },
           ].map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               className={`text-sm font-medium transition-colors duration-300 ${isTransparent
-                  ? 'text-white drop-shadow hover:text-white/80'
-                  : 'text-gray-700 hover:text-primary'
+                ? 'text-white drop-shadow hover:text-white/80'
+                : 'text-gray-700 hover:text-primary'
                 }`}
             >
               {label}

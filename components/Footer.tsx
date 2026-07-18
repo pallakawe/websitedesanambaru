@@ -33,13 +33,15 @@ export function Footer() {
                     <ul className="space-y-2 opacity-80">
                         <li><a href="/profil" className="hover:underline hover:opacity-100 transition">Profil Desa</a></li>
                         <li><a href="/berita" className="hover:underline hover:opacity-100 transition">Berita Terkini</a></li>
+                        <li><a href="/kontak" className="hover:underline hover:opacity-100 transition">Kontak Kami</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 className="text-lg font-semibold mb-4">Kontak Kami</h4>
                     <address className="opacity-80 not-italic space-y-2">
-                        <p>Kantor Kepala Desa Nambaru Jl.Balai Desa</p>
+                        <p>Kantor Kepala Desa Nambaru Jl. Balai Desa</p>
                         <p>Kecamatan Parigi Selatan, Kabupaten Parigi Moutong</p>
+                        <p>WhatsApp: +62 823-4747-1117</p>
                         <p>Email: admin@nambaru.desa.id</p>
                     </address>
                 </div>
