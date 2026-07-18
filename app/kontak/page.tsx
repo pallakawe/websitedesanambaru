@@ -29,10 +29,9 @@ export default function KontakDesa() {
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Alamat Balai Desa</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                Jalan Nambaru Raya No. 1<br />
-                                Kecamatan Parigi Selatan, Kabupaten Parigi Moutong<br />
-                                Provinsi Sulawesi Tengah, 94471
+                            <p className="text-gray-600 leading-relaxed font-normal">
+                                Kantor Kepala Desa Nambaru Jl. Balai Desa<br />
+                                Kecamatan Parigi Selatan, Kabupaten Parigi Moutong
                             </p>
                         </div>
                     </div>
@@ -42,9 +41,8 @@ export default function KontakDesa() {
                         </div>
                         <div>
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Telepon / WhatsApp</h3>
-                            <p className="text-gray-600 leading-relaxed">
-                                +62 823-4747-1117 (Layanan Warga)<br />
-                                +62 823-4747-1117 (Administrasi Desa)
+                            <p className="text-gray-600 leading-relaxed font-normal">
+                                +62 823-4747-1117 (Layanan Warga)
                             </p>
                         </div>
                     </div>
