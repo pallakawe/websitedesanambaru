@@ -1,12 +1,25 @@
+import { Facebook, Instagram, Youtube } from "lucide-react";
+
 export function Footer() {
     return (
         <footer className="bg-primary text-primary-foreground py-12 mt-16">
             <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
                     <h3 className="text-xl font-bold mb-4">Desa Nambaru</h3>
-                    <p className="opacity-80 max-w-sm">
+                    <p className="opacity-80 max-w-sm mb-6">
                         Website resmi desa Nambaru sebagai pusat informasi publik dan pelayanan masyarakat yang transparan dan akuntabel serta fleksibel.
                     </p>
+                    <div className="flex gap-3">
+                        <a href="#" className="p-2.5 bg-primary-foreground/15 rounded-full hover:bg-primary-foreground/25 hover:scale-105 transition-all text-primary-foreground" title="Facebook">
+                            <Facebook className="w-5 h-5" />
+                        </a>
+                        <a href="#" className="p-2.5 bg-primary-foreground/15 rounded-full hover:bg-primary-foreground/25 hover:scale-105 transition-all text-primary-foreground" title="Instagram">
+                            <Instagram className="w-5 h-5" />
+                        </a>
+                        <a href="#" className="p-2.5 bg-primary-foreground/15 rounded-full hover:bg-primary-foreground/25 hover:scale-105 transition-all text-primary-foreground" title="YouTube">
+                            <Youtube className="w-5 h-5" />
+                        </a>
+                    </div>
                 </div>
                 <div>
                     <h4 className="text-lg font-semibold mb-4">Tautan Cepat</h4>
