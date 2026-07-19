@@ -43,7 +43,7 @@ export default function ProfilDesa() {
                     <section>
                         <h2 className="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-primary/20 pb-2">Letak Geografis</h2>
                         <div className="w-full h-48 bg-muted rounded-xl mb-4 overflow-hidden border">
-                            <img src="https://images.unsplash.com/photo-1542273917363-3b1817f69a5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Pemandangan Desa" className="w-full h-full object-cover" />
+                            <img src="/images/Untukgeografis.jpeg" alt="Peta Administratif Desa Nambaru" className="w-full h-full object-cover" />
                         </div>
                         <div className="text-gray-600 leading-relaxed text-justify space-y-4">
                             <p>

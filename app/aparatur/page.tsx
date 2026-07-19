@@ -1,7 +1,7 @@
 const officials = [
     { id: 1, name: "Asmuran", position: "Kepala Desa", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=400&q=80" },
     { id: 2, name: "Kamarudin", position: "Sekretaris Desa", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&w=400&q=80" },
-    { id: 3, name: "Ibnu", position: "Kaur Perencanaan", photo: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 3, name: "Muhammad Ibnu", position: "Kaur Perencanaan", photo: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&w=400&q=80" },
     { id: 4, name: "Umi Kalsum", position: "Kaur Umum", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&w=400&q=80" },
     { id: 5, name: "I Putu Suci Astawa", position: "Kaur Keuangan", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&w=400&q=80" },
     { id: 6, name: "Refly", position: "Kasi Pemerintahan", photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&w=400&q=80" },
@@ -65,7 +65,7 @@ export default function AparaturDesa() {
                             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[560px] h-px bg-gray-400"></div>
                             <div className="flex flex-col items-center gap-0">
                                 <div className="h-8 w-px bg-gray-400"></div>
-                                <OrgNode title="Kaur Perencanaan" name="Ibnu" />
+                                <OrgNode title="Kaur Perencanaan" name="Muhammad Ibnu" />
                             </div>
                             <div className="flex flex-col items-center gap-0">
                                 <div className="h-8 w-px bg-gray-400"></div>
