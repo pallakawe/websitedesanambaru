@@ -7,7 +7,7 @@ export default function ProfilDesa() {
                     <section>
                         <h2 className="text-2xl font-semibold mb-4 text-gray-800 border-b-2 border-primary/20 pb-2">Sejarah Desa</h2>
                         <div className="w-full h-48 bg-muted rounded-xl mb-4 overflow-hidden border">
-                            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sejarah Desa Nambaru" className="w-full h-full object-cover" />
+                            <img src="/images/Sejarah%20Desa.jpeg" alt="Sejarah Desa Nambaru" className="w-full h-full object-cover" />
                         </div>
                         <div className="text-gray-600 leading-relaxed text-justify space-y-4">
                             <p>
