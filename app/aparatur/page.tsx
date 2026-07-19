@@ -1,5 +1,5 @@
 const officials = [
-    { id: 1, name: "Asmuran", position: "Kepala Desa", photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=400&q=80" },
+    { id: 1, name: "Asmuran", position: "Kepala Desa", photo: "/images/fotokades.png" },
     { id: 2, name: "Kamarudin", position: "Sekretaris Desa", photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&w=400&q=80" },
     { id: 3, name: "Muhammad Ibnu", position: "Kaur Perencanaan", photo: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&w=400&q=80" },
     { id: 4, name: "Umi Kalsum", position: "Kaur Umum", photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&w=400&q=80" },
