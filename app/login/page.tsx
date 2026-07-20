@@ -22,9 +22,11 @@ export default function LoginPage() {
         <div className="min-h-[80vh] flex items-center justify-center bg-gray-50 px-4">
             <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
                 <div className="text-center mb-8">
-                    <div className="bg-primary text-white w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-md">
-                        N
-                    </div>
+                    <img
+                        src="/images/logoadmin.png"
+                        alt="Logo Admin"
+                        className="w-16 h-16 object-contain mx-auto mb-4"
+                    />
                     <h1 className="text-3xl font-bold text-gray-900">Login Admin</h1>
                     <p className="text-gray-500 mt-2">Sistem Informasi Manajemen Nambaru</p>
                 </div>
