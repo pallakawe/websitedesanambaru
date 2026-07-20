@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Lock } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -78,9 +79,13 @@ export function Navbar() {
           ))}
           <Link
             href="/login"
-            className="text-sm font-medium text-white bg-primary px-4 py-2 rounded-full hover:bg-primary/90 transition-all shadow-sm ml-2"
+            title="Login Admin"
+            className={`ml-2 w-9 h-9 flex items-center justify-center rounded-full transition-all shadow-sm ${isTransparent
+              ? 'bg-white/20 text-white hover:bg-white/30'
+              : 'bg-primary text-white hover:bg-primary/90'
+              }`}
           >
-            Login Admin
+            <Lock size={16} />
           </Link>
         </div>
       </div>
