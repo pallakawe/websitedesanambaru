@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { LayoutDashboard, FileText, Megaphone, Calendar, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, Megaphone, Calendar, Settings, LogOut, Users } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const menuItems = [
         { name: "Dashboard", href: "/admin", icon: <LayoutDashboard size={20} /> },
         { name: "Berita", href: "/admin/berita", icon: <Megaphone size={20} /> },
         { name: "Agenda", href: "/admin/agenda", icon: <Calendar size={20} /> },
+        { name: "Aparatur", href: "/admin/aparatur", icon: <Users size={20} /> },
         { name: "Pengaturan", href: "/admin", icon: <Settings size={20} /> },
     ];
 
