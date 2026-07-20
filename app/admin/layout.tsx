@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row -mx-4 md:mx-0">
             <aside className="w-full md:w-64 bg-white border-r border-gray-200 p-4 shrink-0 flex-col hidden md:flex min-h-[calc(100vh-64px)] overflow-y-auto">
                 <div className="mb-8 px-2 flex items-center gap-3">
-                    <div className="bg-primary text-white p-2 rounded-lg font-bold">N</div>
+                    <img src="/images/logoadmin.png" alt="Logo Admin" className="w-10 h-10 object-contain" />
                     <span className="font-bold text-lg text-gray-800 tracking-wide">Admin Mode</span>
                 </div>
                 <nav className="flex-1 space-y-2 relative">
