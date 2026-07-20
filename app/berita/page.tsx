@@ -11,7 +11,7 @@ interface NewsItem {
     published_at: string;
 }
 
-const PLACEHOLDER_IMG = "https://images.unsplash.com/photo-1505929606132-756ef26e0be4?ixlib=rb-4.0.3&w=600&q=80";
+const PLACEHOLDER_IMG = "/images/backgroundberanda.jpeg";
 
 export default function BeritaDesa() {
     const [newsList, setNewsList] = useState<NewsItem[]>([]);
@@ -78,6 +78,9 @@ export default function BeritaDesa() {
                                 </p>
                                 <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">{news.title}</h3>
                                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">{news.content}</p>
+                                <span className="text-sm font-semibold text-primary mt-auto inline-flex items-center gap-1 hover:underline cursor-pointer">
+                                    Baca Selengkapnya →
+                                </span>
                             </div>
                         </div>
                     ))}
