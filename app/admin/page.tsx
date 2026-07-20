@@ -33,7 +33,7 @@ export default function AdminDashboard() {
     return (
         <div className="max-w-6xl">
             <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">Selayang Pandang</h1>
+                <h1 className="text-4xl font-bold text-gray-900 mb-2">Overview</h1>
                 <p className="text-gray-600">Selamat datang kembali! Berikut ringkasan statistik website Desa Nambaru saat ini.</p>
             </div>
 
