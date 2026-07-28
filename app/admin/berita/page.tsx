@@ -22,8 +22,8 @@ export default function AdminBerita() {
     // Form state
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
-    const [imageFile, setImageFile] = useState<File | null>(null);
-    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const [dragging, setDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -41,17 +41,26 @@ export default function AdminBerita() {
 
     useEffect(() => { fetchNews(); }, []);
 
-    const handleFileSelected = (file: File) => {
-        if (!file.type.startsWith("image/")) return;
-        setImageFile(file);
-        setImagePreview(URL.createObjectURL(file));
+    const handleFilesSelected = (files: FileList | null) => {
+        if (!files) return;
+        const newFiles = Array.from(files).filter(f => f.type.startsWith("image/"));
+        if (newFiles.length === 0) return;
+
+        setImageFiles(prev => [...prev, ...newFiles]);
+
+        const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+        setImagePreviews(prev => [...prev, ...newPreviews]);
     };
 
     const handleDrop = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         setDragging(false);
-        const file = e.dataTransfer.files[0];
-        if (file) handleFileSelected(file);
+        handleFilesSelected(e.dataTransfer.files);
+    };
+
+    const removeImage = (index: number) => {
+        setImageFiles(prev => prev.filter((_, i) => i !== index));
+        setImagePreviews(prev => prev.filter((_, i) => i !== index));
     };
 
     const uploadImage = async (file: File): Promise<string | null> => {
@@ -78,9 +87,17 @@ export default function AdminBerita() {
         setError(null);
 
         let finalImageUrl: string | null = null;
-        if (imageFile) {
-            finalImageUrl = await uploadImage(imageFile);
-            if (!finalImageUrl) { setSaving(false); return; }
+        if (imageFiles.length > 0) {
+            const uploadPromises = imageFiles.map(file => uploadImage(file));
+            const uploadedUrls = await Promise.all(uploadPromises);
+
+            // Filter out nulls in case of failures
+            const validUrls = uploadedUrls.filter(url => url !== null);
+            if (validUrls.length === 0) {
+                setSaving(false);
+                return;
+            }
+            finalImageUrl = validUrls.join(",");
         }
 
         const { error: err } = await supabase.from("news").insert({
@@ -91,8 +108,7 @@ export default function AdminBerita() {
         if (err) {
             setError(err.message);
         } else {
-            setTitle(""); setContent(""); setImageFile(null); setImagePreview(null);
-            setShowForm(false);
+            resetForm();
             await fetchNews();
         }
         setSaving(false);
@@ -106,7 +122,7 @@ export default function AdminBerita() {
     };
 
     const resetForm = () => {
-        setTitle(""); setContent(""); setImageFile(null); setImagePreview(null);
+        setTitle(""); setContent(""); setImageFiles([]); setImagePreviews([]);
         setShowForm(false); setError(null);
     };
 
@@ -162,26 +178,41 @@ export default function AdminBerita() {
                                     className={`relative w-full border-2 border-dashed rounded-xl transition-all cursor-pointer overflow-hidden
                                         ${dragging ? "border-primary bg-primary/5 scale-[1.01]" : "border-gray-200 hover:border-primary hover:bg-primary/5"}`}
                                 >
-                                    {imagePreview ? (
-                                        <div className="relative">
-                                            <img src={imagePreview} alt="preview" className="w-full h-40 object-cover" />
-                                            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                                <p className="text-white text-sm font-semibold">Klik untuk ganti gambar</p>
+                                    {imagePreviews.length > 0 ? (
+                                        <div className="p-4 bg-gray-50/50">
+                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                {imagePreviews.map((preview, idx) => (
+                                                    <div key={idx} className="relative group rounded-lg overflow-hidden border border-gray-200 aspect-video">
+                                                        <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); removeImage(idx); }}
+                                                                className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 shadow-sm transition-colors"
+                                                            >
+                                                                <X size={14} />
+                                                            </button>
+                                                        </div>
+                                                        {idx === 0 && (
+                                                            <div className="absolute top-1 left-1 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">Cover</div>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                                <div
+                                                    className="relative rounded-lg border-2 border-dashed border-gray-300 hover:border-primary flex flex-col items-center justify-center cursor-pointer bg-white aspect-video group"
+                                                    onClick={(e) => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                                                >
+                                                    <Plus className="text-gray-400 group-hover:text-primary transition-colors" size={24} />
+                                                    <span className="text-[10px] font-medium text-gray-500 mt-1">Tambah Foto</span>
+                                                </div>
                                             </div>
-                                            <button
-                                                type="button"
-                                                onClick={(e) => { e.stopPropagation(); setImageFile(null); setImagePreview(null); }}
-                                                className="absolute top-2 right-2 bg-white/90 rounded-full p-1 hover:bg-white transition-colors"
-                                            >
-                                                <X size={14} className="text-gray-700" />
-                                            </button>
                                         </div>
                                     ) : (
-                                        <div className="flex flex-col items-center justify-center py-8 gap-3 text-gray-400">
+                                        <div className="flex flex-col items-center justify-center py-8 gap-3 text-gray-400" onClick={() => fileInputRef.current?.click()}>
                                             {dragging ? <Upload size={32} className="text-primary animate-bounce" /> : <ImageIcon size={32} />}
                                             <div className="text-center">
-                                                <p className="text-sm font-medium text-gray-600">{dragging ? "Lepaskan gambar di sini" : "Drag & drop gambar ke sini"}</p>
-                                                <p className="text-xs mt-1">atau klik untuk pilih file (JPG, PNG, WEBP)</p>
+                                                <p className="text-sm font-medium text-gray-600">{dragging ? "Lepaskan gambar di sini" : "Drag & drop banyak gambar ke sini"}</p>
+                                                <p className="text-xs mt-1">atau klik untuk pilih multi file (JPG, PNG, WEBP)</p>
                                             </div>
                                         </div>
                                     )}
@@ -189,8 +220,9 @@ export default function AdminBerita() {
                                         ref={fileInputRef}
                                         type="file"
                                         accept="image/*"
+                                        multiple
                                         className="hidden"
-                                        onChange={(e) => { if (e.target.files?.[0]) handleFileSelected(e.target.files[0]); }}
+                                        onChange={(e) => handleFilesSelected(e.target.files)}
                                     />
                                 </div>
                             </div>
@@ -199,7 +231,7 @@ export default function AdminBerita() {
                                 <button type="button" onClick={resetForm} className="flex-1 py-2.5 rounded-xl border border-gray-200 font-semibold text-gray-600 hover:bg-gray-50 transition-all">Batal</button>
                                 <button type="submit" disabled={saving || uploading} className="flex-1 py-2.5 rounded-xl bg-primary text-white font-semibold hover:bg-primary/90 transition-all flex items-center justify-center gap-2 disabled:opacity-60">
                                     {(saving || uploading) && <Loader2 size={16} className="animate-spin" />}
-                                    {uploading ? "Upload gambar..." : saving ? "Menyimpan..." : "Simpan Berita"}
+                                    {uploading ? `Upload ${imageFiles.length} gambar...` : saving ? "Menyimpan..." : "Simpan Berita"}
                                 </button>
                             </div>
                         </form>
@@ -235,7 +267,7 @@ export default function AdminBerita() {
                                     <tr key={item.id} className="border-b border-gray-100 last:border-0 hover:bg-primary/5 transition-colors">
                                         <td className="p-4">
                                             {item.image_url ? (
-                                                <img src={item.image_url} alt={item.title} className="w-12 h-12 object-cover rounded-lg" />
+                                                <img src={item.image_url.split(',')[0]} alt={item.title} className="w-12 h-12 object-cover rounded-lg" />
                                             ) : (
                                                 <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center"><ImageIcon size={18} className="text-gray-400" /></div>
                                             )}

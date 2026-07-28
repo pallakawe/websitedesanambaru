@@ -93,7 +93,7 @@ export default function Home() {
               ) : newsList.map((item) => (
                 <Link key={item.id} href={`/berita/${item.id}`} className="flex gap-4 group cursor-pointer block">
                   <div className="w-32 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
-                    <img src={item.image_url || PLACEHOLDER_IMG} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    <img src={item.image_url?.split(',')[0] || PLACEHOLDER_IMG} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold group-hover:text-primary transition-colors line-clamp-2">{item.title}</h3>

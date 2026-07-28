@@ -68,7 +68,7 @@ export default function BeritaDesa() {
                         <Link href={`/berita/${news.id}`} key={news.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border group flex flex-col sm:flex-row hover:border-primary transition-all hover:shadow-md cursor-pointer block">
                             <div className="w-full sm:w-2/5 h-48 sm:h-auto bg-muted overflow-hidden flex-shrink-0">
                                 <img
-                                    src={news.image_url || PLACEHOLDER_IMG}
+                                    src={news.image_url?.split(',')[0] || PLACEHOLDER_IMG}
                                     alt={news.title}
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 />

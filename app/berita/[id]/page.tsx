@@ -54,12 +54,16 @@ export default function BeritaDetail({ params }: { params: Promise<{ id: string 
         return notFound();
     }
 
+    const imageUrls = news.image_url ? news.image_url.split(',') : [];
+    const heroImage = imageUrls.length > 0 ? imageUrls[0] : PLACEHOLDER_IMG;
+    const galleryImages = imageUrls.slice(1);
+
     return (
         <div className="bg-gray-50 min-h-screen pb-16">
             {/* Hero Image Section */}
             <div className="w-full h-[40vh] md:h-[60vh] relative bg-muted">
                 <img
-                    src={news.image_url || PLACEHOLDER_IMG}
+                    src={heroImage}
                     alt={news.title}
                     className="w-full h-full object-cover"
                 />
@@ -87,9 +91,23 @@ export default function BeritaDetail({ params }: { params: Promise<{ id: string 
             {/* Content Section */}
             <div className="container mx-auto px-4 -mt-8 relative z-10">
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-12 max-w-4xl mx-auto min-h-[400px]">
-                    <article className="prose prose-lg md:prose-xl max-w-none prose-p:text-gray-700 prose-p:leading-relaxed prose-headings:text-gray-900 prose-a:text-primary whitespace-pre-line">
+                    <article className="prose prose-lg md:prose-xl max-w-none prose-p:text-gray-700 prose-p:leading-relaxed prose-headings:text-gray-900 prose-a:text-primary whitespace-pre-line mb-12">
                         {news.content}
                     </article>
+
+                    {/* Galeri Foto (Jika Ada Gambar Lebih Dari Satu) */}
+                    {galleryImages.length > 0 && (
+                        <div className="mt-8 pt-8 border-t border-gray-100">
+                            <h3 className="text-2xl font-bold text-gray-900 mb-6">Galeri Foto</h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {galleryImages.map((imgUrl, idx) => (
+                                    <div key={idx} className="rounded-xl overflow-hidden aspect-video bg-muted border border-gray-200">
+                                        <img src={imgUrl} alt={`Foto galeri ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Share & Footer Actions */}
                     <div className="mt-16 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
