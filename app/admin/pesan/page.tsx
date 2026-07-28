@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Search, Trash2, MailOpen, Mail, X, Loader2 } from "lucide-react";
+import { Search, Trash2, MailOpen, Mail, X, Loader2, Eye } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface Message {
@@ -17,6 +17,7 @@ export default function AdminPesan() {
     const [data, setData] = useState<Message[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
 
     const fetchMessages = async () => {
         setLoading(true);
@@ -136,8 +137,8 @@ export default function AdminPesan() {
                                             <p className={`font-medium ${!item.is_read ? 'text-gray-900' : 'text-gray-700'}`}>{item.nama}</p>
                                             <p className="text-xs text-gray-500 mt-0.5">{item.kontak}</p>
                                         </td>
-                                        <td className="p-4">
-                                            <p className={`text-sm ${!item.is_read ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
+                                        <td className="p-4 max-w-xs md:max-w-md">
+                                            <p className={`text-sm truncate ${!item.is_read ? 'text-gray-900 font-medium' : 'text-gray-600'}`}>
                                                 {item.pesan}
                                             </p>
                                         </td>
@@ -149,6 +150,17 @@ export default function AdminPesan() {
                                         </td>
                                         <td className="p-4 text-center">
                                             <div className="flex items-center justify-center gap-2">
+                                                <button
+                                                    className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="Lihat Detail Pesan"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setSelectedMessage(item);
+                                                        if (!item.is_read) toggleReadStatus(item, e);
+                                                    }}
+                                                >
+                                                    <Eye size={18} />
+                                                </button>
                                                 <button
                                                     className={`p-2 rounded-lg transition-colors ${item.is_read ? 'text-gray-400 hover:bg-gray-100 hover:text-gray-600' : 'text-primary hover:bg-primary/10'}`}
                                                     title={item.is_read ? "Tandai Belum Dibaca" : "Tandai Sudah Dibaca"}
@@ -173,6 +185,50 @@ export default function AdminPesan() {
                 </div>
                 <div className="p-4 border-t text-sm text-gray-500">Total: {filtered.length} pesan terdaftar</div>
             </div>
+
+            {/* Modal Detail Pesan */}
+            {selectedMessage && (
+                <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg my-4">
+                        <div className="flex justify-between items-center p-6 border-b">
+                            <h2 className="text-xl font-bold text-gray-900">Detail Pesan</h2>
+                            <button onClick={() => setSelectedMessage(null)} className="text-gray-400 hover:text-gray-700 transition-colors">
+                                <X size={22} />
+                            </button>
+                        </div>
+                        <div className="p-6">
+                            <div className="mb-4">
+                                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">Pengirim</p>
+                                <p className="text-gray-900 font-medium text-lg">{selectedMessage.nama}</p>
+                                <p className="text-gray-600">{selectedMessage.kontak}</p>
+                            </div>
+                            <div className="mb-6">
+                                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1">Waktu Diterima</p>
+                                <p className="text-gray-800">
+                                    {new Date(selectedMessage.created_at).toLocaleString("id-ID", {
+                                        weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+                                        hour: '2-digit', minute: '2-digit'
+                                    })}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-2">Isi Pesan Lengkap</p>
+                                <div className="bg-gray-50 p-4 rounded-xl text-gray-800 whitespace-pre-wrap border border-gray-100 max-h-60 overflow-y-auto">
+                                    {selectedMessage.pesan}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-4 border-t flex justify-end">
+                            <button
+                                onClick={() => setSelectedMessage(null)}
+                                className="bg-gray-100 text-gray-700 px-5 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
+                            >
+                                Tutup Panel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
