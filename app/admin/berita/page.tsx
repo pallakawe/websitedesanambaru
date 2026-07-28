@@ -22,6 +22,7 @@ export default function AdminBerita() {
     // Form state
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [publishedAt, setPublishedAt] = useState("");
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
@@ -73,6 +74,8 @@ export default function AdminBerita() {
         setTitle(item.title);
         setContent(item.content);
         setEditingId(item.id);
+        const datePart = item.published_at ? new Date(item.published_at).toISOString().substring(0, 10) : "";
+        setPublishedAt(datePart);
         setExistingImageUrls(item.image_url ? item.image_url.split(',') : []);
         setImageFiles([]);
         setImagePreviews([]);
@@ -119,10 +122,16 @@ export default function AdminBerita() {
         const finalUrls = [...existingImageUrls, ...newUrls];
         const finalImageUrl = finalUrls.length > 0 ? finalUrls.join(",") : null;
 
+        let finalPublishedAt = new Date().toISOString();
+        if (publishedAt) {
+            finalPublishedAt = new Date(publishedAt).toISOString();
+        }
+
         const payload = {
             title: title.trim(),
             content: content.trim(),
             image_url: finalImageUrl,
+            published_at: finalPublishedAt
         };
 
         let err;
@@ -151,7 +160,7 @@ export default function AdminBerita() {
     };
 
     const resetForm = () => {
-        setTitle(""); setContent(""); setImageFiles([]); setImagePreviews([]);
+        setTitle(""); setContent(""); setPublishedAt(""); setImageFiles([]); setImagePreviews([]);
         setExistingImageUrls([]); setEditingId(null);
         setShowForm(false); setError(null);
     };
@@ -188,13 +197,19 @@ export default function AdminBerita() {
                             <button onClick={resetForm} className="text-gray-400 hover:text-gray-700 transition-colors"><X size={22} /></button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                            <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Judul Berita <span className="text-red-500">*</span></label>
-                                <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Masukkan judul berita..." className="w-full px-4 py-2.5 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Judul Berita <span className="text-red-500">*</span></label>
+                                    <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Masukkan judul berita..." className="w-full px-4 py-2.5 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Tanggal Kegiatan / Publikasi</label>
+                                    <input type="date" value={publishedAt} onChange={(e) => setPublishedAt(e.target.value)} className="w-full px-4 py-2.5 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all text-gray-700" />
+                                </div>
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Isi / Konten <span className="text-red-500">*</span></label>
-                                <textarea required rows={5} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Tulis isi berita di sini..." className="w-full px-4 py-2.5 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none" />
+                                <textarea required rows={5} value={content} onChange={(e) => setContent(e.target.value)} placeholder="Tulis rincian kegiatan / isi berita di sini..." className="w-full px-4 py-2.5 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none" />
                             </div>
 
                             {/* Drag and Drop Image Upload */}
