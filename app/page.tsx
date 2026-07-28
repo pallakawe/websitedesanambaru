@@ -63,8 +63,8 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-12">Statistik Desa Nambaru</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { label: 'Penduduk', value: '4.521', desc: 'Jiwa' },
-              { label: 'Keluarga', value: '1.204', desc: 'Kepala Keluarga' },
+              { label: 'Penduduk', value: '3.365', desc: 'Jiwa' },
+              { label: 'Keluarga', value: '972', desc: 'Kepala Keluarga' },
               { label: 'Dusun', value: '6', desc: 'Wilayah' },
               { label: 'Rukun Tetangga', value: '12', desc: 'Total RT' },
             ].map((stat, i) => (

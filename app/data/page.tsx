@@ -1,10 +1,10 @@
 const populationStats = [
-  { group: "Dusun I", count: 850, percentage: 77 },
-  { group: "Dusun II (Kalae)", count: 920, percentage: 83 },
-  { group: "Dusun III (Trimasari)", count: 780, percentage: 70 },
-  { group: "Dusun IV (Masiana)", count: 1100, percentage: 100 },
-  { group: "Dusun V (Bonebula)", count: 871, percentage: 79 },
-  { group: "Dusun VI (Margo)", count: 650, percentage: 59 },
+  { group: "Dusun I", count: 923, percentage: 97 },
+  { group: "Dusun II (Kalae)", count: 947, percentage: 100 },
+  { group: "Dusun III (Trimasari)", count: 572, percentage: 60 },
+  { group: "Dusun IV (Masiana)", count: 422, percentage: 45 },
+  { group: "Dusun V (Bonebula)", count: 436, percentage: 46 },
+  { group: "Dusun VI (Toini)", count: 94, percentage: 10 },
 ];
 
 export default function DataDesa() {
@@ -24,13 +24,13 @@ export default function DataDesa() {
         {/* Ringkasan Data */}
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-primary/5 p-8 rounded-3xl border border-primary/20 text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-5xl font-black text-primary mb-2">4.521</h3>
+            <h3 className="text-5xl font-black text-primary mb-2">3.365</h3>
             <p className="font-semibold text-gray-800 text-lg">
               Total Penduduk
             </p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-4xl font-black text-gray-900 mb-2">1.204</h3>
+            <h3 className="text-4xl font-black text-gray-900 mb-2">972</h3>
             <p className="font-medium text-gray-600">Kepala Keluarga</p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
