@@ -34,7 +34,7 @@ export default function DataDesa() {
             <p className="font-medium text-gray-600">Kepala Keluarga</p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-4xl font-black text-gray-900 mb-2">24</h3>
+            <h3 className="text-4xl font-black text-gray-900 mb-2">12</h3>
             <p className="font-medium text-gray-600">RT (Rukun Tetangga)</p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
