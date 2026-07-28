@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef, DragEvent } from "react";
-import { Search, Plus, Trash2, X, Loader2, Upload, Image as ImageIcon } from "lucide-react";
+import { Search, Plus, Trash2, X, Loader2, Upload, Image as ImageIcon, Edit } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 interface NewsItem {
@@ -24,6 +24,8 @@ export default function AdminBerita() {
     const [content, setContent] = useState("");
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+    const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const [dragging, setDragging] = useState(false);
     const [uploading, setUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +65,20 @@ export default function AdminBerita() {
         setImagePreviews(prev => prev.filter((_, i) => i !== index));
     };
 
+    const removeExistingImage = (index: number) => {
+        setExistingImageUrls(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const handleEditClick = (item: NewsItem) => {
+        setTitle(item.title);
+        setContent(item.content);
+        setEditingId(item.id);
+        setExistingImageUrls(item.image_url ? item.image_url.split(',') : []);
+        setImageFiles([]);
+        setImagePreviews([]);
+        setShowForm(true);
+    };
+
     const uploadImage = async (file: File): Promise<string | null> => {
         setUploading(true);
         const ext = file.name.split(".").pop();
@@ -80,31 +96,43 @@ export default function AdminBerita() {
         return urlData.publicUrl;
     };
 
-    const handleAdd = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!title.trim() || !content.trim()) return;
         setSaving(true);
         setError(null);
 
-        let finalImageUrl: string | null = null;
+        let newUrls: string[] = [];
         if (imageFiles.length > 0) {
             const uploadPromises = imageFiles.map(file => uploadImage(file));
             const uploadedUrls = await Promise.all(uploadPromises);
 
             // Filter out nulls in case of failures
-            const validUrls = uploadedUrls.filter(url => url !== null);
-            if (validUrls.length === 0) {
+            newUrls = uploadedUrls.filter((url): url is string => url !== null);
+            if (newUrls.length === 0) {
                 setSaving(false);
                 return;
             }
-            finalImageUrl = validUrls.join(",");
         }
 
-        const { error: err } = await supabase.from("news").insert({
+        const finalUrls = [...existingImageUrls, ...newUrls];
+        const finalImageUrl = finalUrls.length > 0 ? finalUrls.join(",") : null;
+
+        const payload = {
             title: title.trim(),
             content: content.trim(),
             image_url: finalImageUrl,
-        });
+        };
+
+        let err;
+        if (editingId) {
+            const { error } = await supabase.from("news").update(payload).eq("id", editingId);
+            err = error;
+        } else {
+            const { error } = await supabase.from("news").insert(payload);
+            err = error;
+        }
+
         if (err) {
             setError(err.message);
         } else {
@@ -123,6 +151,7 @@ export default function AdminBerita() {
 
     const resetForm = () => {
         setTitle(""); setContent(""); setImageFiles([]); setImagePreviews([]);
+        setExistingImageUrls([]); setEditingId(null);
         setShowForm(false); setError(null);
     };
 
@@ -154,10 +183,10 @@ export default function AdminBerita() {
                 <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4 overflow-y-auto">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg my-4">
                         <div className="flex justify-between items-center p-6 border-b">
-                            <h2 className="text-xl font-bold text-gray-900">Tambah Berita Baru</h2>
+                            <h2 className="text-xl font-bold text-gray-900">{editingId ? "Edit Berita" : "Tambah Berita Baru"}</h2>
                             <button onClick={resetForm} className="text-gray-400 hover:text-gray-700 transition-colors"><X size={22} /></button>
                         </div>
-                        <form onSubmit={handleAdd} className="p-6 space-y-5">
+                        <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Judul Berita <span className="text-red-500">*</span></label>
                                 <input type="text" required value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Masukkan judul berita..." className="w-full px-4 py-2.5 border border-gray-200 rounded-xl outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all" />
@@ -178,12 +207,29 @@ export default function AdminBerita() {
                                     className={`relative w-full border-2 border-dashed rounded-xl transition-all cursor-pointer overflow-hidden
                                         ${dragging ? "border-primary bg-primary/5 scale-[1.01]" : "border-gray-200 hover:border-primary hover:bg-primary/5"}`}
                                 >
-                                    {imagePreviews.length > 0 ? (
+                                    {(imagePreviews.length > 0 || existingImageUrls.length > 0) ? (
                                         <div className="p-4 bg-gray-50/50">
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                {existingImageUrls.map((url, idx) => (
+                                                    <div key={`existing-${idx}`} className="relative group rounded-lg overflow-hidden border border-gray-200 aspect-video">
+                                                        <img src={url} alt={`existing-${idx}`} className="w-full h-full object-cover" />
+                                                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
+                                                            <button
+                                                                type="button"
+                                                                onClick={(e) => { e.stopPropagation(); removeExistingImage(idx); }}
+                                                                className="bg-red-500 text-white rounded-full p-1.5 hover:bg-red-600 shadow-sm transition-colors"
+                                                            >
+                                                                <X size={14} />
+                                                            </button>
+                                                        </div>
+                                                        {idx === 0 && (
+                                                            <div className="absolute top-1 left-1 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">Cover</div>
+                                                        )}
+                                                    </div>
+                                                ))}
                                                 {imagePreviews.map((preview, idx) => (
-                                                    <div key={idx} className="relative group rounded-lg overflow-hidden border border-gray-200 aspect-video">
-                                                        <img src={preview} alt="preview" className="w-full h-full object-cover" />
+                                                    <div key={`new-${idx}`} className="relative group rounded-lg overflow-hidden border border-gray-200 aspect-video">
+                                                        <img src={preview} alt={`preview-${idx}`} className="w-full h-full object-cover" />
                                                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all">
                                                             <button
                                                                 type="button"
@@ -193,7 +239,7 @@ export default function AdminBerita() {
                                                                 <X size={14} />
                                                             </button>
                                                         </div>
-                                                        {idx === 0 && (
+                                                        {(idx === 0 && existingImageUrls.length === 0) && (
                                                             <div className="absolute top-1 left-1 bg-primary text-white text-[10px] font-bold px-1.5 py-0.5 rounded shadow">Cover</div>
                                                         )}
                                                     </div>
@@ -280,9 +326,14 @@ export default function AdminBerita() {
                                             {new Date(item.published_at).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
                                         </td>
                                         <td className="p-4 text-center">
-                                            <button className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus" onClick={() => handleDelete(item.id)}>
-                                                <Trash2 size={18} />
-                                            </button>
+                                            <div className="flex items-center justify-center gap-2">
+                                                <button className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors" title="Edit" onClick={() => handleEditClick(item)}>
+                                                    <Edit size={18} />
+                                                </button>
+                                                <button className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Hapus" onClick={() => handleDelete(item.id)}>
+                                                    <Trash2 size={18} />
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))
