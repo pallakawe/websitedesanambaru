@@ -82,7 +82,8 @@ export default function AdminBerita() {
     const uploadImage = async (file: File): Promise<string | null> => {
         setUploading(true);
         const ext = file.name.split(".").pop();
-        const filename = `${Date.now()}.${ext}`;
+        const randId = Math.random().toString(36).substring(2, 9);
+        const filename = `${Date.now()}-${randId}.${ext}`;
         const { error: uploadErr } = await supabase.storage
             .from("news")
             .upload(filename, file, { upsert: true });
