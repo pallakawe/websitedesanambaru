@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LayoutDashboard, FileText, Megaphone, Calendar, Settings, LogOut, Users } from "lucide-react";
+import { LayoutDashboard, FileText, Megaphone, Calendar, Settings, LogOut, Users, MessageSquare } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const menuItems = [
@@ -7,6 +7,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         { name: "Berita", href: "/admin/berita", icon: <Megaphone size={20} /> },
         { name: "Agenda", href: "/admin/agenda", icon: <Calendar size={20} /> },
         { name: "Aparatur", href: "/admin/aparatur", icon: <Users size={20} /> },
+        { name: "Kotak Masuk", href: "/admin/pesan", icon: <MessageSquare size={20} /> },
         { name: "Pengaturan", href: "/admin", icon: <Settings size={20} /> },
     ];
 

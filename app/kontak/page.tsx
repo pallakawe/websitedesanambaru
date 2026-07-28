@@ -1,16 +1,47 @@
 "use client";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
 import { useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function KontakDesa() {
     const [nama, setNama] = useState('');
     const [kontak, setKontak] = useState('');
     const [pesan, setPesan] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [errorMsg, setErrorMsg] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const teks = `Halo Desa Nambaru,%0ANama: ${nama}%0AKontak: ${kontak}%0APesan: ${pesan}`;
-        window.open(`https://wa.me/6282347471117?text=${teks}`, '_blank');
+
+        if (!nama.trim() || !kontak.trim() || !pesan.trim()) return;
+
+        setLoading(true);
+        setStatus('idle');
+
+        const { error } = await supabase.from('messages').insert({
+            nama: nama.trim(),
+            kontak: kontak.trim(),
+            pesan: pesan.trim()
+        });
+
+        if (error) {
+            console.error(error);
+            setErrorMsg("Gagal mengirim pesan. Silakan coba beberapa saat lagi.");
+            setStatus('error');
+        } else {
+            setNama('');
+            setKontak('');
+            setPesan('');
+            setStatus('success');
+
+            // Hilangkan success message setelah 5 detik
+            setTimeout(() => {
+                setStatus('idle');
+            }, 5000);
+        }
+
+        setLoading(false);
     };
     return (
         <div className="container mx-auto px-4 py-12">
@@ -74,8 +105,42 @@ export default function KontakDesa() {
                             <label className="block text-sm font-semibold text-gray-700 mb-2">Pesan</label>
                             <textarea rows={4} value={pesan} onChange={e => setPesan(e.target.value)} required className="w-full px-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-gray-50 focus:bg-white resize-none" placeholder="Tulis pesan Anda di sini..."></textarea>
                         </div>
-                        <button type="submit" className="mt-auto bg-primary text-white font-bold py-4 rounded-xl hover:bg-opacity-90 transition-all shadow-md">
-                            Kirim Ke Desa
+                        {status === 'success' && (
+                            <div className="bg-green-50 text-green-700 p-4 rounded-xl text-sm border border-green-200 flex items-start gap-3">
+                                <CheckCircle2 className="w-5 h-5 mt-0.5 shrink-0" />
+                                <div>
+                                    <p className="font-semibold">Pesan Berhasil Terkirim!</p>
+                                    <p className="opacity-90">Terima kasih, pesan Anda telah masuk dengan aman ke kotak masuk administrasi desa kami.</p>
+                                </div>
+                            </div>
+                        )}
+
+                        {status === 'error' && (
+                            <div className="bg-red-50 text-red-700 p-4 rounded-xl text-sm border border-red-200 flex items-start gap-3">
+                                <AlertCircle className="w-5 h-5 mt-0.5 shrink-0" />
+                                <div>
+                                    <p className="font-semibold">Mohon Maaf</p>
+                                    <p className="opacity-90">{errorMsg}</p>
+                                </div>
+                            </div>
+                        )}
+
+                        <button
+                            type="submit"
+                            disabled={loading || status === 'success'}
+                            className="mt-auto bg-primary text-white font-bold py-4 rounded-xl hover:bg-opacity-90 transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                        >
+                            {loading ? (
+                                <>
+                                    <Loader2 size={20} className="animate-spin" /> Mengirim Pesan...
+                                </>
+                            ) : status === 'success' ? (
+                                <>
+                                    <CheckCircle2 size={20} /> Terkirim
+                                </>
+                            ) : (
+                                "Kirim Ke Admin Desa"
+                            )}
                         </button>
                     </form>
                 </div>
