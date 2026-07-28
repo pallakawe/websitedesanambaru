@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import { Loader2 } from "lucide-react";
 
@@ -64,7 +65,7 @@ export default function BeritaDesa() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {filtered.map((news) => (
-                        <div key={news.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border group flex flex-col sm:flex-row hover:border-primary transition-all hover:shadow-md">
+                        <Link href={`/berita/${news.id}`} key={news.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border group flex flex-col sm:flex-row hover:border-primary transition-all hover:shadow-md cursor-pointer block">
                             <div className="w-full sm:w-2/5 h-48 sm:h-auto bg-muted overflow-hidden flex-shrink-0">
                                 <img
                                     src={news.image_url || PLACEHOLDER_IMG}
@@ -78,11 +79,11 @@ export default function BeritaDesa() {
                                 </p>
                                 <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">{news.title}</h3>
                                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">{news.content}</p>
-                                <span className="text-sm font-semibold text-primary mt-auto inline-flex items-center gap-1 hover:underline cursor-pointer">
+                                <span className="text-sm font-semibold text-primary mt-auto inline-flex items-center gap-1 group-hover:underline cursor-pointer">
                                     Baca Selengkapnya →
                                 </span>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             )}

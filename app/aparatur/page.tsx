@@ -22,7 +22,7 @@ const DEFAULT_OFFICIALS: OfficialItem[] = [
     { id: "default-9", name: "Jamaluddin", position: "Kepala Dusun II", photo_url: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&w=400&q=80", period: "2026 - 2032" },
     { id: "default-10", name: "I Putu Indra Yogi", position: "Kepala Dusun III", photo_url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&w=400&q=80", period: "2026 - 2032" },
     { id: "default-11", name: "Yerry Elshinta", position: "Kepala Dusun IV", photo_url: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&w=400&q=80", period: "2026 - 2032" },
-    { id: "default-12", name: "Junaedi Biki", position: "Kepala Dusun V", photo_url: "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&w=400&q=80", period: "2026 - 2032" },
+    { id: "default-12", name: "Wadin", position: "Kepala Dusun V", photo_url: "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-4.0.3&w=400&q=80", period: "2026 - 2032" },
     { id: "default-13", name: "Rifandi", position: "Kepala Dusun VI", photo_url: "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?ixlib=rb-4.0.3&w=400&q=80", period: "2026 - 2032" },
 ];
 

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 interface NewsItem { id: string; title: string; content: string; image_url: string | null; published_at: string; }
@@ -90,7 +91,7 @@ export default function Home() {
               {newsList.length === 0 ? (
                 <p className="text-gray-400 text-sm py-4">Belum ada berita yang dipublikasikan.</p>
               ) : newsList.map((item) => (
-                <a key={item.id} href="/berita" className="flex gap-4 group cursor-pointer">
+                <Link key={item.id} href={`/berita/${item.id}`} className="flex gap-4 group cursor-pointer block">
                   <div className="w-32 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                     <img src={item.image_url || PLACEHOLDER_IMG} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   </div>
@@ -101,7 +102,7 @@ export default function Home() {
                     </p>
                     <p className="text-sm text-gray-600 line-clamp-2">{item.content}</p>
                   </div>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
