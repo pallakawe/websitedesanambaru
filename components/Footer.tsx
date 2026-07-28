@@ -42,7 +42,7 @@ export function Footer() {
                         <p>Kantor Kepala Desa Nambaru Jl. Balai Desa</p>
                         <p>Kecamatan Parigi Selatan, Kabupaten Parigi Moutong</p>
                         <p>WhatsApp: <a href="https://wa.me/6282347471117" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-white transition-colors">+62 823-4747-1117</a></p>
-                        <p>Email: admin@nambaru.desa.id</p>
+                        <p>Email: desanambaru1@gmail.com</p>
                     </address>
                 </div>
             </div>

@@ -53,8 +53,7 @@ export default function KontakDesa() {
                         <div>
                             <h3 className="text-xl font-bold text-gray-900 mb-2">Email Resmi</h3>
                             <p className="text-gray-600 leading-relaxed">
-                                admin@nambaru.desa.id<br />
-                                layanan@nambaru.desa.id
+                                desanambaru1@gmail.com
                             </p>
                         </div>
                     </div>
