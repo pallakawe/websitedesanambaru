@@ -11,10 +11,30 @@ const PLACEHOLDER_IMG = "/images/backgroundberanda.jpeg";
 export default function Home() {
   const [newsList, setNewsList] = useState<NewsItem[]>([]);
   const [agendaList, setAgendaList] = useState<AgendaItem[]>([]);
+  const [stats, setStats] = useState({ population: 3365, families: 972, hamlets: 6, totalRt: 12 });
 
   useEffect(() => {
     supabase.from("news").select("id, title, content, image_url, published_at").order("published_at", { ascending: false }).limit(3).then(({ data }) => setNewsList(data || []));
     supabase.from("agendas").select("id, title, event_date, location").order("event_date", { ascending: true }).limit(3).then(({ data }) => setAgendaList(data || []));
+
+    // Fetch stats
+    supabase.from("village_statistics").select("*").limit(1).single().then(({ data }) => {
+      if (data) {
+        let parsedRt = 12;
+        if (data.rt_rw) {
+          try {
+            const p = JSON.parse(data.rt_rw);
+            if (p.total_rt) parsedRt = p.total_rt;
+          } catch (e) { }
+        }
+        setStats({
+          population: data.population || 3365,
+          families: data.families || 972,
+          hamlets: data.hamlets || 6,
+          totalRt: parsedRt
+        });
+      }
+    });
   }, []);
 
   return (
@@ -63,10 +83,10 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center mb-12">Statistik Desa Nambaru</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { label: 'Penduduk', value: '3.365', desc: 'Jiwa' },
-              { label: 'Keluarga', value: '972', desc: 'Kepala Keluarga' },
-              { label: 'Dusun', value: '6', desc: 'Wilayah' },
-              { label: 'Rukun Tetangga', value: '12', desc: 'Total RT' },
+              { label: 'Penduduk', value: stats.population.toLocaleString('id-ID'), desc: 'Jiwa' },
+              { label: 'Keluarga', value: stats.families.toLocaleString('id-ID'), desc: 'Kepala Keluarga' },
+              { label: 'Dusun', value: stats.hamlets, desc: 'Wilayah' },
+              { label: 'Rukun Tetangga', value: stats.totalRt, desc: 'Total' },
             ].map((stat, i) => (
               <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border hover:border-primary transition-colors">
                 <h3 className="text-4xl font-black text-primary mb-2">{stat.value}</h3>

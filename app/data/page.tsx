@@ -1,13 +1,73 @@
-const populationStats = [
-  { group: "Dusun I", count: 923, percentage: 97 },
-  { group: "Dusun II (Kalae)", count: 947, percentage: 100 },
-  { group: "Dusun III (Trimasari)", count: 572, percentage: 60 },
-  { group: "Dusun IV (Masiana)", count: 422, percentage: 45 },
-  { group: "Dusun V (Bonebula)", count: 436, percentage: 46 },
-  { group: "Dusun VI (Toini)", count: 94, percentage: 10 },
-];
+"use client";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { Loader2 } from "lucide-react";
 
 export default function DataDesa() {
+  const [stats, setStats] = useState<{
+    population: number;
+    families: number;
+    totalRt: number;
+    hamlets: number;
+    dusunData: { group: string; count: number; percentage?: number }[];
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const { data } = await supabase.from("village_statistics").select("*").limit(1).single();
+
+      let population = 3365;
+      let families = 972;
+      let totalRt = 12;
+      let hamlets = 6;
+      let dusunData = [
+        { group: "Dusun I", count: 923 },
+        { group: "Dusun II (Kalae)", count: 947 },
+        { group: "Dusun III (Trimasari)", count: 572 },
+        { group: "Dusun IV (Masiana)", count: 422 },
+        { group: "Dusun V (Bonebula)", count: 436 },
+        { group: "Dusun VI (Toini)", count: 94 },
+      ];
+
+      if (data) {
+        population = data.population || population;
+        families = data.families || families;
+        hamlets = data.hamlets || hamlets;
+
+        if (data.rt_rw) {
+          try {
+            const parsed = JSON.parse(data.rt_rw);
+            if (parsed.total_rt) totalRt = parsed.total_rt;
+            if (parsed.dusun_data && Array.isArray(parsed.dusun_data) && parsed.dusun_data.length > 0) {
+              dusunData = parsed.dusun_data;
+            }
+          } catch (e) { }
+        }
+      }
+
+      // Calculate percentages dynamically
+      const maxCount = Math.max(...dusunData.map(d => d.count), 1);
+      const computedDusun = dusunData.map(d => ({
+        ...d,
+        percentage: Math.round((d.count / maxCount) * 100)
+      }));
+
+      setStats({ population, families, totalRt, hamlets, dusunData: computedDusun });
+      setLoading(false);
+    };
+    fetchStats();
+  }, []);
+
+  if (loading || !stats) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] text-gray-500">
+        <Loader2 size={32} className="animate-spin mb-4 text-primary" />
+        <p>Memuat statistik desa...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center max-w-2xl mx-auto mb-16">
@@ -24,21 +84,21 @@ export default function DataDesa() {
         {/* Ringkasan Data */}
         <div className="grid grid-cols-2 gap-6">
           <div className="bg-primary/5 p-8 rounded-3xl border border-primary/20 text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-5xl font-black text-primary mb-2">3.365</h3>
+            <h3 className="text-5xl font-black text-primary mb-2">{stats.population.toLocaleString("id-ID")}</h3>
             <p className="font-semibold text-gray-800 text-lg">
               Total Penduduk
             </p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-4xl font-black text-gray-900 mb-2">972</h3>
+            <h3 className="text-4xl font-black text-gray-900 mb-2">{stats.families.toLocaleString("id-ID")}</h3>
             <p className="font-medium text-gray-600">Kepala Keluarga</p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-4xl font-black text-gray-900 mb-2">12</h3>
+            <h3 className="text-4xl font-black text-gray-900 mb-2">{stats.totalRt}</h3>
             <p className="font-medium text-gray-600">RT (Rukun Tetangga)</p>
           </div>
           <div className="bg-white p-8 rounded-3xl border shadow-sm text-center flex flex-col justify-center transform transition hover:scale-105">
-            <h3 className="text-4xl font-black text-gray-900 mb-2">6</h3>
+            <h3 className="text-4xl font-black text-gray-900 mb-2">{stats.hamlets}</h3>
             <p className="font-medium text-gray-600">Lingkungan/Dusun</p>
           </div>
         </div>
@@ -49,14 +109,14 @@ export default function DataDesa() {
             Distribusi Kependudukan
           </h2>
           <div className="space-y-6">
-            {populationStats.map((stat, idx) => (
+            {stats.dusunData.map((stat, idx) => (
               <div key={idx}>
                 <div className="flex justify-between items-end mb-2">
                   <span className="font-semibold text-gray-700">
                     {stat.group}
                   </span>
                   <span className="text-sm font-bold text-primary">
-                    {stat.count} Jiwa
+                    {stat.count.toLocaleString("id-ID")} Jiwa
                   </span>
                 </div>
                 <div className="w-full bg-gray-100 rounded-full h-4 overflow-hidden shadow-inner">

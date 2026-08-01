@@ -25,14 +25,37 @@ export default function AdminAgenda() {
     const [eventDate, setEventDate] = useState("");
     const [location, setLocation] = useState("");
 
+    const defaultAgendasSeed = [
+        { title: "Rapat Minggon Desa", event_date: "2026-08-15 09:00", location: "Balai Desa Nambaru", description: "Rapat koordinasi mingguan antara kepala desa, perangkat desa, dan ketua RT/RW." },
+        { title: "Penyuluhan Pertanian Organik", event_date: "2026-08-20 08:30", location: "Aula Serbaguna", description: "Penyuluhan mengenai tata cara pembuatan pupuk organik dari Dinas Pertanian Kabupaten." },
+        { title: "Kerja Bakti Massal", event_date: "2026-08-24 07:00", location: "Sepanjang Jalan Utama", description: "Kerja bakti bersama seluruh warga untuk membersihkan saluran air dan pinggir jalan." },
+        { title: "Posyandu Balita & Lansia", event_date: "2026-08-28 08:00", location: "Puskesdes Nambaru", description: "Layanan rutin pemeriksaan kesehatan untuk balita, ibu hamil, dan lansia." },
+    ];
+
     const fetchAgenda = async () => {
         setLoading(true);
         const { data: rows, error: err } = await supabase
             .from("agendas")
             .select("id, title, description, event_date, location")
             .order("event_date", { ascending: true });
-        if (err) setError(err.message);
-        else setData(rows || []);
+
+        if (err) {
+            setError(err.message);
+        } else {
+            if (rows && rows.length === 0) {
+                // Auto seed first time execution!
+                const { error: insertError } = await supabase.from("agendas").insert(defaultAgendasSeed);
+                if (!insertError) {
+                    const { data: newRows } = await supabase
+                        .from("agendas")
+                        .select("id, title, description, event_date, location")
+                        .order("event_date", { ascending: true });
+                    setData(newRows || []);
+                }
+            } else {
+                setData(rows || []);
+            }
+        }
         setLoading(false);
     };
 
