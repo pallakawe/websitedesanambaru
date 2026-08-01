@@ -4,12 +4,13 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Lock } from 'lucide-react';
+import { Lock, Menu, X } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
   const isHome = pathname === '/';
   const [scrolled, setScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,9 +23,19 @@ export function Navbar() {
 
   const isTransparent = isHome && !scrolled;
 
+  const navLinks = [
+    { href: '/', label: 'Beranda' },
+    { href: '/profil', label: 'Profil' },
+    { href: '/aparatur', label: 'Aparatur' },
+    { href: '/data', label: 'Data' },
+    { href: '/potensi', label: 'Potensi' },
+    { href: '/berita', label: 'Berita' },
+    { href: '/kontak', label: 'Kontak' },
+  ];
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isTransparent
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isTransparent && !isOpen
         ? 'border-b border-white/10 bg-transparent'
         : 'border-b border-border bg-white/90 backdrop-blur-md shadow-sm'
         }`}
@@ -41,13 +52,13 @@ export function Navbar() {
           />
           <div className="flex flex-col leading-tight">
             <span
-              className={`font-bold text-base sm:text-lg transition-colors duration-300 ${isTransparent ? 'text-white drop-shadow' : 'text-primary'
+              className={`font-bold text-base sm:text-lg transition-colors duration-300 ${isTransparent && !isOpen ? 'text-white drop-shadow' : 'text-primary'
                 }`}
             >
               Desa Nambaru
             </span>
             <span
-              className={`text-xs sm:text-sm transition-colors duration-300 ${isTransparent ? 'text-white/80 drop-shadow' : 'text-gray-500'
+              className={`text-xs sm:text-sm transition-colors duration-300 ${isTransparent && !isOpen ? 'text-white/80 drop-shadow' : 'text-gray-500'
                 }`}
             >
               Kabupaten Parigi Moutong
@@ -55,17 +66,9 @@ export function Navbar() {
           </div>
         </Link>
 
-        {/* Menu */}
+        {/* Menu Desktop */}
         <div className="hidden lg:flex gap-5 items-center">
-          {[
-            { href: '/', label: 'Beranda' },
-            { href: '/profil', label: 'Profil' },
-            { href: '/aparatur', label: 'Aparatur' },
-            { href: '/data', label: 'Data' },
-            { href: '/potensi', label: 'Potensi' },
-            { href: '/berita', label: 'Berita' },
-            { href: '/kontak', label: 'Kontak' },
-          ].map(({ href, label }) => (
+          {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
@@ -88,7 +91,38 @@ export function Navbar() {
             <Lock size={16} />
           </Link>
         </div>
+
+        {/* Mobile Toggle Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className={`lg:hidden p-2 rounded-lg transition-colors ${isTransparent && !isOpen ? 'text-white' : 'text-gray-900 hover:bg-gray-100'}`}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <div className="lg:hidden absolute top-16 left-0 right-0 w-full bg-white shadow-xl border-t border-gray-100 flex flex-col py-2 px-4 animate-in slide-in-from-top-2 duration-200">
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setIsOpen(false)}
+              className="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:text-primary hover:bg-primary/5 transition-colors rounded"
+            >
+              {label}
+            </Link>
+          ))}
+          <Link
+            href="/login"
+            onClick={() => setIsOpen(false)}
+            className="mt-4 py-3 bg-primary text-white text-center font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm"
+          >
+            <Lock size={16} /> Login Admin Panel
+          </Link>
+        </div>
+      )}
     </nav>
   );
 }
