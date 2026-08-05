@@ -129,61 +129,76 @@ export default function PotensiDesa() {
             {/* Cover Image Slider */}
             {(() => {
               const photos = selectedPotensi.photo_url ? selectedPotensi.photo_url.split(',').filter((u: string) => u) : ['/images/backgroundberanda.jpeg'];
-              const currentPhoto = photos[currentImageIndex] || photos[0];
 
-              // Define touch variables purely inside the scope of the renderer to avoid top-level state cluttering
-              let touchStartX = 0;
-              let touchEndX = 0;
+              const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+                const target = e.target as HTMLDivElement;
+                const index = Math.round(target.scrollLeft / target.clientWidth);
+                if (index !== currentImageIndex) {
+                  setCurrentImageIndex(index);
+                }
+              };
+
+              const scrollTo = (index: number) => {
+                const slider = document.getElementById('potensi-slider');
+                if (slider) {
+                  slider.scrollTo({
+                    left: index * slider.clientWidth,
+                    behavior: 'smooth'
+                  });
+                }
+              };
 
               return (
-                <div
-                  className="w-full md:w-1/2 min-h-[300px] md:min-h-[400px] bg-gray-100 flex-shrink-0 relative group touch-pan-y"
-                  onTouchStart={(e) => touchStartX = e.changedTouches[0].screenX}
-                  onTouchEnd={(e) => {
-                    touchEndX = e.changedTouches[0].screenX;
-                    if (photos.length > 1) {
-                      if (touchStartX - touchEndX > 50) {
-                        // Geser kiri (Next)
-                        setCurrentImageIndex(prev => prev === photos.length - 1 ? 0 : prev + 1);
-                      }
-                      if (touchEndX - touchStartX > 50) {
-                        // Geser kanan (Prev)
-                        setCurrentImageIndex(prev => prev === 0 ? photos.length - 1 : prev - 1);
-                      }
-                    }
-                  }}
-                >
-                  <img
-                    src={currentPhoto}
-                    alt={selectedPotensi.title}
-                    className="w-full h-full object-cover absolute inset-0 select-none pointer-events-none" // pointer-events-none ensures image doesn't block touch start on some phones
-                  />
+                <div className="w-full md:w-1/2 min-h-[300px] md:min-h-[400px] bg-gray-100 flex-shrink-0 relative group">
+                  <div
+                    id="potensi-slider"
+                    className="w-full h-full absolute inset-0 flex overflow-x-auto snap-x snap-mandatory scroll-smooth"
+                    onScroll={handleScroll}
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
+                    {photos.map((photo: string, idx: number) => (
+                      <div key={idx} className="w-full h-full flex-shrink-0 snap-center relative">
+                        <img
+                          src={photo}
+                          alt={`${selectedPotensi.title} - Foto ${idx + 1}`}
+                          className="w-full h-full object-cover select-none pointer-events-none"
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Gradient Overlay for Controls Visibility */}
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
 
                   {photos.length > 1 && (
                     <>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setCurrentImageIndex(prev => prev === 0 ? photos.length - 1 : prev - 1);
+                          const newIndex = currentImageIndex === 0 ? photos.length - 1 : currentImageIndex - 1;
+                          scrollTo(newIndex);
                         }}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/60 text-white rounded-full lg:opacity-0 group-hover:opacity-100 transition-all font-bold md:block" // Hidden or lowered opacity on touch until hover natively
+                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/60 text-white rounded-full lg:opacity-0 group-hover:opacity-100 transition-all font-bold hidden md:block"
                       >
                         <ChevronLeft size={24} />
                       </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setCurrentImageIndex(prev => prev === photos.length - 1 ? 0 : prev + 1);
+                          const newIndex = currentImageIndex === photos.length - 1 ? 0 : currentImageIndex + 1;
+                          scrollTo(newIndex);
                         }}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/60 text-white rounded-full lg:opacity-0 group-hover:opacity-100 transition-all font-bold md:block"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/60 text-white rounded-full lg:opacity-0 group-hover:opacity-100 transition-all font-bold hidden md:block"
                       >
                         <ChevronRight size={24} />
                       </button>
-                      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-none">
+
+                      {/* Pagination Dots (Clickable natively) */}
+                      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 z-10 pointer-events-none md:pointer-events-auto">
                         {photos.map((_: any, idx: number) => (
                           <div
                             key={idx}
-                            className={`w-2 h-2 rounded-full transition-all ${idx === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'}`}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'}`}
                           />
                         ))}
                       </div>
