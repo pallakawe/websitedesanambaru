@@ -33,12 +33,12 @@ export default function AdminDashboard() {
     return (
         <div className="max-w-6xl">
             <div className="mb-8">
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">Overview</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Overview</h1>
                 <p className="text-gray-600">Selamat datang kembali! Berikut ringkasan statistik website Desa Nambaru saat ini.</p>
             </div>
 
             {/* Stats Real */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 lg:mb-12">
                 {stats.map((stat, idx) => (
                     <div key={idx} className="bg-white p-6 rounded-2xl border shadow-sm flex items-center justify-between hover:shadow-md transition-shadow">
                         <div>
@@ -54,7 +54,7 @@ export default function AdminDashboard() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Berita Terbaru */}
-                <div className="bg-white border rounded-2xl shadow-sm p-8">
+                <div className="bg-white border rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8">
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-xl font-bold">Berita Terbaru</h3>
                         <Link href="/admin/berita" className="text-primary text-sm font-semibold hover:underline">Kelola Berita</Link>
@@ -79,7 +79,7 @@ export default function AdminDashboard() {
                 {/* Agenda Terdekat + Jalan Pintas */}
                 <div className="flex flex-col gap-8">
                     {/* Agenda */}
-                    <div className="bg-white border rounded-2xl shadow-sm p-8">
+                    <div className="bg-white border rounded-2xl shadow-sm p-4 sm:p-6 lg:p-8">
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-xl font-bold">Agenda Terdekat</h3>
                             <Link href="/admin/agenda" className="text-primary text-sm font-semibold hover:underline">Kelola Agenda</Link>
@@ -101,7 +101,7 @@ export default function AdminDashboard() {
                     {/* Jalan Pintas */}
                     <div className="bg-white border rounded-2xl shadow-sm p-6">
                         <h3 className="text-xl font-bold mb-4">Jalan Pintas</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {shortcuts.map((s) => (
                                 <Link key={s.href} href={s.href} className="p-4 border border-gray-100 rounded-xl hover:border-primary hover:bg-primary/5 transition flex flex-col gap-2 group">
                                     <span className={`text-2xl w-10 h-10 flex items-center justify-center rounded-lg group-hover:scale-110 transition-transform ${s.bg}`}>{s.icon}</span>
