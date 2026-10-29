@@ -40,20 +40,20 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-16 pb-16">
       {/* Hero Section */}
-      <section className="relative w-full h-screen -mt-16 flex items-center justify-center overflow-hidden">
+      <section className="relative w-full min-h-[min(760px,100svh)] md:min-h-[min(860px,100svh)] -mt-16 flex items-center justify-center overflow-hidden pt-24 pb-20">
         <div className="absolute inset-0 bg-black/40 z-10" />
         <div className="absolute inset-0 z-0 bg-cover bg-center" style={{ backgroundImage: 'url("/images/backgroundberanda.jpeg")' }} />
         <div className="relative z-20 text-center text-white px-4">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-in slide-in-from-bottom flex flex-col gap-2">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 animate-in slide-in-from-bottom flex flex-col gap-2">
             <span>Selamat Datang di</span>
             <span className="text-white">Desa Nambaru</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto opacity-90 animate-in slide-in-from-bottom delay-150">
             Desa Kerukunan yang Tumbuh Bersama, Maju Bersama, dan Sejahtera Bersama.
           </p>
-          <div className="mt-8 flex gap-4 justify-center">
-            <a href="/profil" className="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition shadow-lg">Jelajahi Desa</a>
-            <a href="/potensi" className="bg-transparent border border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition">Lihat Potensi</a>
+          <div className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center max-w-sm sm:max-w-none mx-auto">
+            <a href="/profil" className="bg-white text-primary text-center px-6 py-3 rounded-full font-semibold hover:bg-opacity-90 transition shadow-lg">Jelajahi Desa</a>
+            <a href="/potensi" className="bg-transparent border border-white text-white text-center px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition">Lihat Potensi</a>
           </div>
         </div>
       </section>
@@ -103,7 +103,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Berita Dinamis */}
           <div className="md:col-span-2">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-wrap gap-2 justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Kabar Desa Terbaru</h2>
               <a href="/berita" className="text-primary text-sm font-semibold hover:underline">Lihat Semua</a>
             </div>
@@ -111,8 +111,8 @@ export default function Home() {
               {newsList.length === 0 ? (
                 <p className="text-gray-400 text-sm py-4">Belum ada berita yang dipublikasikan.</p>
               ) : newsList.map((item) => (
-                <Link key={item.id} href={`/berita/${item.id}`} className="flex gap-4 group cursor-pointer block">
-                  <div className="w-32 h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
+                <Link key={item.id} href={`/berita/${item.id}`} className="flex flex-col sm:flex-row gap-4 group cursor-pointer">
+                  <div className="w-full sm:w-32 h-44 sm:h-24 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                     <img src={item.image_url?.split(',')[0] || PLACEHOLDER_IMG} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
                   </div>
                   <div>
@@ -129,7 +129,7 @@ export default function Home() {
 
           {/* Agenda Dinamis */}
           <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-wrap gap-2 justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">Agenda Kegiatan</h2>
               <a href="/agenda" className="text-primary text-sm font-semibold hover:underline">Semua</a>
             </div>
