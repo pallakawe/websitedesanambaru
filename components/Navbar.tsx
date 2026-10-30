@@ -37,7 +37,7 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isTransparent && !isOpen
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-200 ${isTransparent && !isOpen
         ? 'border-b border-white/10 bg-transparent'
         : 'border-b border-border bg-white/90 backdrop-blur-md shadow-sm'
         }`}
