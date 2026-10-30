@@ -64,14 +64,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <AuthGuard>
             <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row max-w-[100vw] overflow-x-hidden">
                 {/* Desktop Sidebar */}
-                <aside className="w-64 bg-white border-r border-gray-200 p-4 shrink-0 flex-col hidden md:flex min-h-screen sticky top-0">
+                <aside className="w-64 bg-white border-r border-gray-200 p-4 shrink-0 flex-col hidden md:flex h-screen sticky top-0">
                     <SidebarContent />
                 </aside>
 
                 {/* Mobile Header */}
                 <div className="md:hidden bg-white p-4 border-b flex justify-between items-center text-sm font-semibold sticky top-0 z-40 shadow-sm w-full">
                     <div className="flex items-center gap-3">
-                        <button onClick={() => setIsMobileMenuOpen(true)} className="p-1 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                        <button onClick={() => setIsMobileMenuOpen(true)} aria-label="Buka menu admin" aria-expanded={isMobileMenuOpen} className="p-1 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
                             <Menu size={24} />
                         </button>
                         <span className="text-primary text-base">Dasbor Nambaru</span>
@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                         {/* Drawer */}
                         <div className="w-72 max-w-[80vw] h-full bg-white shadow-2xl relative flex flex-col p-4 animate-in slide-in-from-left-4 duration-300">
-                            <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-4 right-4 p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors z-10">
+                            <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Tutup menu admin" className="absolute top-4 right-4 p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors z-10">
                                 <X size={20} />
                             </button>
                             <SidebarContent />
@@ -95,7 +95,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 )}
 
                 {/* Main Content Area */}
-                <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto w-full text-left">
+                <main className="flex-1 min-w-0 p-4 sm:p-6 md:p-8 overflow-y-auto w-full text-left">
                     {children}
                 </main>
             </div>

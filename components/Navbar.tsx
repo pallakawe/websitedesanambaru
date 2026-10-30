@@ -21,6 +21,8 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => { setIsOpen(false); }, [pathname]);
+
   const isTransparent = isHome && !scrolled;
 
   const navLinks = [
@@ -35,7 +37,7 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${isTransparent && !isOpen
+      className={`fixed top-0 left-0 right-0 z-50 w-full transition-colors duration-200 ${isTransparent && !isOpen
         ? 'border-b border-white/10 bg-transparent'
         : 'border-b border-border bg-white/90 backdrop-blur-md shadow-sm'
         }`}
@@ -72,7 +74,8 @@ export function Navbar() {
             <Link
               key={href}
               href={href}
-              className={`text-sm font-medium transition-colors duration-300 ${isTransparent
+              aria-current={pathname === href ? 'page' : undefined}
+              className={`text-sm font-medium transition-colors duration-300 ${pathname === href ? 'underline underline-offset-8 decoration-2 ' : ''}${isTransparent
                 ? 'text-white drop-shadow hover:text-white/80'
                 : 'text-gray-700 hover:text-primary'
                 }`}
@@ -95,6 +98,9 @@ export function Navbar() {
         {/* Mobile Toggle Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
+          aria-expanded={isOpen}
+          aria-controls="nambaru-mobile-nav"
           className={`lg:hidden p-2 rounded-lg transition-colors ${isTransparent && !isOpen ? 'text-white' : 'text-gray-900 hover:bg-gray-100'}`}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -103,12 +109,13 @@ export function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="lg:hidden absolute top-16 left-0 right-0 w-full bg-white shadow-xl border-t border-gray-100 flex flex-col py-2 px-4 animate-in slide-in-from-top-2 duration-200">
+        <div id="nambaru-mobile-nav" className="lg:hidden absolute top-16 left-0 right-0 w-full bg-white shadow-xl border-t border-gray-100 flex flex-col py-2 px-4 animate-in slide-in-from-top-2 duration-200">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setIsOpen(false)}
+              aria-current={pathname === href ? 'page' : undefined}
               className="py-3 px-2 border-b border-gray-50 text-gray-700 font-medium hover:text-primary hover:bg-primary/5 transition-colors rounded"
             >
               {label}
